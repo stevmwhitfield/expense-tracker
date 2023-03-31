@@ -1,6 +1,6 @@
 const Category = require("../models/CategoryModel");
 
-// Create a new category
+// Insert new category
 const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -17,7 +17,6 @@ const readCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const category = await Category.read(id);
-    console.log(category);
     if (category.rowCount > 0) {
       res.json(category.rows[0]);
     } else {
@@ -50,7 +49,7 @@ const readAllCategories = async (req, res) => {
   }
 };
 
-// Update the name of a specific category
+// Edit the name of a specific category
 const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;

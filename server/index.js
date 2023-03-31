@@ -14,6 +14,9 @@ app.use(express.json());
 const categoryRoute = require("./routes/CategoryRoute");
 app.use("/category", categoryRoute);
 
+const expenseRoute = require("./routes/ExpenseRoute");
+app.use("/expense", expenseRoute);
+
 // Invalid routes - error 404
 app.use((req, res) => {
   res.status(404).send("Error 404: Page not found.");
