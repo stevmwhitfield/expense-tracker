@@ -1,25 +1,36 @@
-const Expense = require("../models/ExpenseModel");
+import { Request, Response } from "express";
+import Expense from "../models/ExpenseModel";
 
 // Insert new expense
-const createExpense = async (req, res) => {
+const createExpense = async (req: Request, res: Response) => {
   try {
-    const { date, amount, description, categoryId } = req.body;
+    const {
+      date,
+      amount,
+      description,
+      categoryId,
+    }: {
+      date: string;
+      amount: number;
+      description: string;
+      categoryId: number;
+    } = req.body;
     const expense = await Expense.create(date, amount, description, categoryId);
     res.json({
       message: "Created new expense.",
       expense: expense.rows[0],
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err.message);
     res.json({ status: res.statusCode, message: "Failed to create expense." });
   }
 };
 
 // Get a specific expense
-const readExpense = async (req, res) => {
+const readExpense = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const expense = await Expense.read(id);
+    const expense = await Expense.read(Number(id));
     if (expense.rowCount > 0) {
       res.json(expense.rows[0]);
     } else {
@@ -28,14 +39,14 @@ const readExpense = async (req, res) => {
         errorMessage: "Expense does not exist.",
       });
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error(err.message);
     res.json({ status: res.statusCode, message: "Failed to read expense." });
   }
 };
 
 // Get all expenses
-const readAllExpenses = async (req, res) => {
+const readAllExpenses = async (req: Request, res: Response) => {
   try {
     const expenses = await Expense.readAll();
     if (expenses.rowCount > 0) {
@@ -43,7 +54,7 @@ const readAllExpenses = async (req, res) => {
     } else {
       res.json({ message: "No expenses found." });
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error(err.message);
     res.json({
       status: res.statusCode,
@@ -53,12 +64,22 @@ const readAllExpenses = async (req, res) => {
 };
 
 // Edit a one or more properties of a specific expense
-const updateExpense = async (req, res) => {
+const updateExpense = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { date, amount, description, categoryId } = req.body;
+    const {
+      date,
+      amount,
+      description,
+      categoryId,
+    }: {
+      date: string;
+      amount: number;
+      description: string;
+      categoryId: number;
+    } = req.body;
     const expense = await Expense.update(
-      id,
+      Number(id),
       date,
       amount,
       description,
@@ -68,25 +89,25 @@ const updateExpense = async (req, res) => {
       message: "Updated expense.",
       expense: expense.rows[0],
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err.message);
     res.json({ status: res.statusCode, message: "Failed to update expense." });
   }
 };
 
 // Delete a specific expense
-const deleteExpense = async (req, res) => {
+const deleteExpense = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const expense = await Expense.delete(id);
+    const expense = await Expense.delete(Number(id));
     res.json({ message: "Deleted expense." });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err.message);
     res.json({ status: res.statusCode, message: "Failed to delete expense." });
   }
 };
 
-module.exports = {
+export default {
   createExpense,
   readExpense,
   readAllExpenses,

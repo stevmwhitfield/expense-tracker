@@ -1,9 +1,14 @@
 import { useState } from "react";
 
-const UpdateItem = ({ item }) => {
+interface IItemProps {
+  id: number;
+  description: string;
+}
+
+const UpdateItem = ({ item }: { item: IItemProps }) => {
   const { id } = item;
 
-  const editItem = async () => {
+  const editItem = async (id: number) => {
     try {
       const newDescription = prompt("Enter a new description", "");
       if (newDescription === null) {
@@ -16,8 +21,8 @@ const UpdateItem = ({ item }) => {
         body: JSON.stringify(body),
       });
 
-      window.location = "/";
-    } catch (err) {
+      window.location.href = "/";
+    } catch (err: any) {
       console.error(err.message);
     }
   };

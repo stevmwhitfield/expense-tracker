@@ -3,7 +3,7 @@ import { useState } from "react";
 const CreateItem = () => {
   const [description, setDescription] = useState("");
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const body = { description };
@@ -13,8 +13,8 @@ const CreateItem = () => {
         body: JSON.stringify(body),
       });
 
-      window.location = "/";
-    } catch (err) {
+      window.location.href = "/";
+    } catch (err: any) {
       console.error(err.message);
     }
   };

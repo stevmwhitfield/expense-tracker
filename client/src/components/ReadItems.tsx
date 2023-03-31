@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import DeleteItem from "./DeleteItem";
 import UpdateItem from "./UpdateItem";
 
+interface IItemProps {
+  id: number;
+  description: string;
+}
+
 const ReadItems = () => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<IItemProps[]>([]);
 
   const getList = async () => {
     try {
@@ -11,7 +16,7 @@ const ReadItems = () => {
       const data = await res.json();
 
       setList(data);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err.message);
     }
   };
@@ -39,12 +44,12 @@ const ReadItems = () => {
           </tr>
         </thead>
         <tbody>
-          {list.map((item) => {
+          {list.map((item: IItemProps) => {
             return (
               <tr key={item.id}>
                 <td>{item.description}</td>
                 <td>
-                  <UpdateItem item={item} list={list} setList={setList} />
+                  <UpdateItem item={item} />
                 </td>
                 <td>
                   <DeleteItem item={item} list={list} setList={setList} />

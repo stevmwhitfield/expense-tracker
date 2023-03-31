@@ -1,22 +1,23 @@
-const Category = require("../models/CategoryModel");
+import { Request, Response } from "express";
+import Category from "../models/CategoryModel";
 
 // Insert new category
-const createCategory = async (req, res) => {
+const createCategory = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
+    const { name }: { name: string } = req.body;
     const category = await Category.create(name);
     res.json({ message: "Created new category.", category: category.rows[0] });
-  } catch (err) {
-    console.err(err.message);
+  } catch (err: any) {
+    console.error(err.message);
     res.json({ status: res.statusCode, message: "Failed to create category." });
   }
 };
 
 // Get a specific category
-const readCategory = async (req, res) => {
+const readCategory = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const category = await Category.read(id);
+    const category = await Category.read(Number(id));
     if (category.rowCount > 0) {
       res.json(category.rows[0]);
     } else {
@@ -25,14 +26,14 @@ const readCategory = async (req, res) => {
         errorMessage: "Category does not exist.",
       });
     }
-  } catch (err) {
-    console.err(err.message);
+  } catch (err: any) {
+    console.error(err.message);
     res.json({ status: res.statusCode, message: "Failed to read category." });
   }
 };
 
 // Get all categories, if any exist
-const readAllCategories = async (req, res) => {
+const readAllCategories = async (req: Request, res: Response) => {
   try {
     const categories = await Category.readAll();
     if (categories.rows.length > 0) {
@@ -40,8 +41,8 @@ const readAllCategories = async (req, res) => {
     } else {
       res.json({ message: "No categories found." });
     }
-  } catch (err) {
-    console.err(err.message);
+  } catch (err: any) {
+    console.error(err.message);
     res.json({
       status: res.statusCode,
       message: "Failed to read all categories.",
@@ -50,31 +51,31 @@ const readAllCategories = async (req, res) => {
 };
 
 // Edit the name of a specific category
-const updateCategory = async (req, res) => {
+const updateCategory = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name } = req.body;
-    const category = await Category.update(id, name);
+    const { name }: { name: string } = req.body;
+    const category = await Category.update(Number(id), name);
     res.json({ message: "Updated category.", category: category.rows[0] });
-  } catch (err) {
-    console.err(err.message);
+  } catch (err: any) {
+    console.error(err.message);
     res.json({ status: res.statusCode, message: "Failed to update category." });
   }
 };
 
 // Delete a specific category
-const deleteCategory = async (req, res) => {
+const deleteCategory = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const category = await Category.delete(id);
+    const category = await Category.delete(Number(id));
     res.json({ message: "Deleted category." });
-  } catch (err) {
-    console.err(err.message);
+  } catch (err: any) {
+    console.error(err.message);
     res.json({ status: res.statusCode, message: "Failed to delete category." });
   }
 };
 
-module.exports = {
+export default {
   createCategory,
   readCategory,
   readAllCategories,

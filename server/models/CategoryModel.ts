@@ -1,9 +1,9 @@
 // Import database connection
-const pool = require("../postgres/db-conn");
+import pool from "../postgres/db-conn";
 
 class Category {
   // Insert new category
-  static create = async (name) => {
+  static create = async (name: string) => {
     return await pool.query(
       "insert into categories(category_name) values($1) returning *;",
       [name]
@@ -11,7 +11,7 @@ class Category {
   };
 
   // Get a specific category
-  static read = async (id) => {
+  static read = async (id: number) => {
     return await pool.query(
       "select * from categories where category_id = $1;",
       [id]
@@ -24,7 +24,7 @@ class Category {
   };
 
   // Edit the name of a specific category
-  static update = async (id, name) => {
+  static update = async (id: number, name: string) => {
     return await pool.query(
       "update categories set category_name=$2 where category_id = $1;",
       [id, name]
@@ -32,11 +32,11 @@ class Category {
   };
 
   // Delete a specific category
-  static delete = async (id) => {
+  static delete = async (id: number) => {
     return await pool.query("delete from categories where category_id = $1", [
       id,
     ]);
   };
 }
 
-module.exports = Category;
+export default Category;

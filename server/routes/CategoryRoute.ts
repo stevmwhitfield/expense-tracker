@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import controller from "../controllers/CategoryController";
 
-const controller = require("../controllers/CategoryController");
+const router = express.Router();
 
 // Set routes for all 'category' CRUD operations
 router.post("/", controller.createCategory);
@@ -10,4 +10,4 @@ router.get("/:id", controller.readCategory);
 router.put("/:id", controller.updateCategory);
 router.delete("/:id", controller.deleteCategory);
 
-module.exports = router;
+export default router;

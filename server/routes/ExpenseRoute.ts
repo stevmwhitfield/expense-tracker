@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import controller from "../controllers/ExpenseController";
 
-const controller = require("../controllers/ExpenseController");
+const router = express.Router();
 
 // Set routes for all 'expense' CRUD operations
 router.post("/", controller.createExpense);
@@ -10,4 +10,4 @@ router.get("/:id", controller.readExpense);
 router.put("/:id", controller.updateExpense);
 router.delete("/:id", controller.deleteExpense);
 
-module.exports = router;
+export default router;

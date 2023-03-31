@@ -1,9 +1,14 @@
 // Import database connection
-const pool = require("../postgres/db-conn");
+import pool from "../postgres/db-conn";
 
 class Expense {
   // Insert new expense
-  static create = async (date, amount, description, categoryId) => {
+  static create = async (
+    date: string,
+    amount: number,
+    description: string,
+    categoryId: number
+  ) => {
     return await pool.query(
       "insert into expenses(date, amount, description, category_id) values($1, $2, $3, $4) returning *;",
       [date, amount, description, categoryId]
@@ -11,7 +16,7 @@ class Expense {
   };
 
   // Get a specific expense
-  static read = async (id) => {
+  static read = async (id: number) => {
     return await pool.query("select * from expenses where expense_id = $1", [
       id,
     ]);
@@ -23,7 +28,13 @@ class Expense {
   };
 
   // Edit one or more properties of a specific expense
-  static update = async (id, date, amount, description, categoryId) => {
+  static update = async (
+    id: number,
+    date: string,
+    amount: number,
+    description: string,
+    categoryId: number
+  ) => {
     return await pool.query(
       "update expenses set date=$2, amount=$3, description=$4, category_id=$5 where expense_id=$1",
       [id, date, amount, description, categoryId]
@@ -31,9 +42,9 @@ class Expense {
   };
 
   // Delete a specific expense
-  static delete = async (id) => {
+  static delete = async (id: number) => {
     return await pool.query("delete from expenses where expense_id = $1", [id]);
   };
 }
 
-module.exports = Expense;
+export default Expense;
